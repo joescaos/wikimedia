@@ -1,0 +1,36 @@
+services:
+  kafka:
+    image: apache/kafka:4.0.0
+    container_name: kafka-kraft-broker
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      # Configuración KRaft esencial
+      CLUSTER_ID: YOUR_ID
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+
+      # Listeners
+      KAFKA_LISTENERS: "PLAINTEXT://:9092,CONTROLLER://:9093"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+
+      # Quórum
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka-kraft-broker:9093"
+
+      # Logs - usar directorio que existe en la imagen
+      KAFKA_LOG_DIRS: "/tmp/kafka-data"
+
+      # Configuraciones
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+
+    # Usar volumen nombrado en lugar de bind mount
+    volumes:
+      - kafka-kraft-data:/opt/kafka/data
+
+volumes:
+  kafka-kraft-data:

@@ -1,0 +1,50 @@
+# IntelliJ IDEA - Ignorar TODOS los archivos .idea
+.idea/
+**/.idea/
+**/.idea/*
+
+# Archivos específicos de IDEA (por si acaso)
+*.iml
+*.ipr
+*.iws
+
+# Build directories - Ignorar carpetas de build
+build/
+**/build/
+out/
+**/out/
+target/
+**/target/
+
+# Logs
+logs/
+*.log
+
+# Dependencies
+**/lib/
+**/libs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Gradle cache (pero NO los wrapper files)
+.gradle/
+**/.gradle/
+**/gradle/
+
+# Archivos generados
+bin/
+**/bin/
+.apt_generated/
+**/.apt_generated/
+
+# Archivos de propiedades locales
+*.properties
+*.env
+.local.env
+
+# Certificados
+*.keystore
+*.truststore
+*.jks
