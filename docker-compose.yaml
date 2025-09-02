@@ -7,7 +7,7 @@ services:
       - "9093:9093"
     environment:
       # Configuración KRaft esencial
-      CLUSTER_ID: YOUR_ID
+      CLUSTER_ID: 5L6g3nShT-eMCtK--X86sw
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: "broker,controller"
       KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
