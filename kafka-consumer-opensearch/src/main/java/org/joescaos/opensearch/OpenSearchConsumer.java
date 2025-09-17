@@ -1,5 +1,6 @@
 package org.joescaos.opensearch;
 
+import com.google.gson.JsonParser;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -62,6 +63,15 @@ public class OpenSearchConsumer {
         return new RestHighLevelClient(builder);
     }
 
+    private static String extractId(String message) {
+        return JsonParser.parseString(message)
+                .getAsJsonObject()
+                .get("meta")
+                .getAsJsonObject()
+                .get("id")
+                .getAsString();
+    }
+
     public static void main(String[] args) throws IOException {
 
         Logger log = LoggerFactory.getLogger(OpenSearchConsumer.class.getName());
@@ -90,7 +100,8 @@ public class OpenSearchConsumer {
 
                 for (ConsumerRecord<String, String> record: records) {
                     IndexRequest indexRequest = new IndexRequest("wikimedia")
-                            .source(record.value(), XContentType.JSON);
+                            .source(record.value(), XContentType.JSON)
+                            .id(extractId(record.value()));
                     IndexResponse indexResponse = openSearchClient.index(indexRequest, RequestOptions.DEFAULT);
 
                     log.info("Inserted 1 document into OpenSearch " + indexResponse.getId());
